@@ -5,22 +5,32 @@
 
 # Not thread safe singleton
 
-class Singleton
-  private_class_method :new
+# class Singleton
+#   private_class_method :new
 
-  def self.instance
-    @instance ||= new
-  end
+#   def self.instance
+#     @instance ||= new
+#   end
 
-  attr_accessor :data
+#   attr_accessor :data
 
-  def initialize
-    @data = :data
-  end
-end
+#   def initialize
+#     @data = :data
+#   end
+# end
 
 # Thread safe singleton
 
+class Class
+  def thread_safe_attr_accessor(*attrs, with:)
+    attrs.each do |attr|
+      instance_var = :"@#{attr}"
+      define_method(attr) { send(with) { instance_variable_get(instance_var) } }
+      define_method("#{attr}=") { |arg| send(with) { instance_variable_set(instance_var, arg) } }
+    end
+  end
+end
+
 class Singleton
   private_class_method :new
 
@@ -30,21 +40,15 @@ class Singleton
 
   def initialize
     @data = :data
-    @mutex = Mutex.new
+    @lock = Mutex.new
   end
 
-  def data
-    with_mutex { @data }
-  end
-
-  def data=(arg)
-    with_mutex { @data = arg }
-  end
+  thread_safe_attr_accessor :data, with: :synchronize
 
   private
 
-  def with_mutex
-    @mutex.synchronize { yield }
+  def synchronize
+    @lock.synchronize { yield }
   end
 end
 
