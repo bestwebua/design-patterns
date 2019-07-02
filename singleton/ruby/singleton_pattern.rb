@@ -19,7 +19,7 @@
 #   end
 # end
 
-# Thread safe singleton
+# Thread safe singleton with safe attr_accessor
 
 class Class
   def thread_safe_attr_accessor(*attrs, with:)
