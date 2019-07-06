@@ -1,5 +1,5 @@
-# The goal of Abstract Factory pattern: provide an interface for creating
-# families of related or dependent objects without specifying their
+# The goal of Abstract Factory pattern is to provide an interface for
+# creating families of related or dependent objects without specifying their
 # concrete classes.
 
 # You should use the Abstract Factory pattern whenever you have a system
