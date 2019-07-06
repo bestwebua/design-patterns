@@ -11,32 +11,36 @@ class CarService
   end
 
   def start_service!
-    %i[new_engine_service new_wheels_service].each do |service|
-      car_service_factory.public_send(:service)
+    %i[new_target_staff new_car_spares].each do |service|
+      car_service_factory.public_send(service)
     end
   end
 end
 
 class ServiceTypeFactory
-  %i[target_staff car_spares].each { |method| define_method(method) }
+  %i[new_target_staff new_car_spares].each { |method| define_method(method) {} }
+end
+
+%i[TireStaff Wheels GarageMechanicsStaff EngineParts].each do |class_name|
+  Object.const_set(class_name, Class.new)
 end
 
 class WheelsServiceFactory < ServiceTypeFactory
-  def target_staff
+  def new_target_staff
     TireStaff.new
   end
 
-  def car_spares
+  def new_car_spares
     Wheels.new
   end
 end
 
 class EngineServiceFactory < ServiceTypeFactory
-  def target_staff
+  def new_target_staff
     GarageMechanicsStaff.new
   end
 
-  def car_spares
+  def new_car_spares
     EngineParts.new
   end
 end
