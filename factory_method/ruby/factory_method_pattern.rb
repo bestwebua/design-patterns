@@ -3,7 +3,9 @@
 # Factory Method lets a class defer instantiation to subclasses.
 
 class Team
-  def initialize(backend_developers: 0, frontend_developers: 0)
+  DEFAULT_MEMBERS_COUNT = 1
+
+  def initialize(backend_developers: DEFAULT_MEMBERS_COUNT, frontend_developers: DEFAULT_MEMBERS_COUNT)
     @backend_developers = [new_team_member(developer_profile: :backend)] * backend_developers
     @frontend_developers = [new_team_member(developer_profile: :frontend)] * frontend_developers
   end
