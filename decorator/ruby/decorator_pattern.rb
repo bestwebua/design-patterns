@@ -17,3 +17,4 @@ end
 
 user = UserDecorator.new(User.new('First Name', 'Last Name', 'email@email.com'))
 user.full_name
+p user.email
